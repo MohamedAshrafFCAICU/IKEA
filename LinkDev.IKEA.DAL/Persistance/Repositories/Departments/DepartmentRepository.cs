@@ -58,5 +58,10 @@ namespace LinkDev.IKEA.DAL.Persistance.Repositories.Departments
 
             //return department;  
         }
+
+        public IQueryable<Department> GetAllAsIQueryable()
+        {
+            return _dbContext.Departments;
+        }
     }
 }

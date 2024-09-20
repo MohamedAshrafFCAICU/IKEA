@@ -11,6 +11,8 @@ namespace LinkDev.IKEA.DAL.Persistance.Repositories.Departments
     {
         IEnumerable<Department> GetAll(bool WithAsNoTracking = true);
 
+        IQueryable<Department> GetAllAsIQueryable();
+
         Department? GetById(int id);
 
         int Add(Department entity);
