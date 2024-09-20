@@ -11,14 +11,9 @@ namespace LinkDev.IKEA.DAL.Persistance.Data
 {
     public class ApplicationDbContext  : DbContext
     {
-        public ApplicationDbContext() : base()
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server = . ; Database = IKEA_G04 ; Trusted_Connection = True ; TrustServerCertificate = True ; ");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
