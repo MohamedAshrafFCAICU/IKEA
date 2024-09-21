@@ -3,6 +3,7 @@ using LinkDev.IKEA.BLL.Services.Departments;
 using LinkDev.IKEA.BLL.Services.Employees;
 using LinkDev.IKEA.DAL.Entities.Employee;
 using LinkDev.IKEA.PL.ViewModels.Departments;
+using LinkDev.IKEA.PL.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinkDev.IKEA.PL.Controllers
@@ -97,67 +98,66 @@ namespace LinkDev.IKEA.PL.Controllers
         }
         #endregion
 
-        //#region Edit
-        //[HttpGet] // GET: /Employee/Edit/id?
-        //public IActionResult Edit(int? id)
-        //{
-        //    if (id is null)
-        //        return BadRequest(); // 400
+        
+        [HttpGet] // GET: /Employee/Edit/id?
+        public IActionResult Edit(int? id)
+        {
+            if (id is null)
+                return BadRequest(); // 400
 
-        //    var Employee = _employeeService.GetEmployeeById(id.Value);
+            var Employee = _employeeService.GetEmployeeById(id.Value);
 
-        //    if (Employee is null)
-        //        return NotFound();  // 404
+            if (Employee is null)
+                return NotFound();  // 404
 
-        //    return View(new DepartmentEditViewModel()
-        //    {
-        //        Code = Employee.Code,
-        //        Name = Employee.Name,
-        //        CreationDate = Employee.CreationDate,
-        //        Description = Employee.Description,
-        //    });
-        //}
+            return View(new UpdatedEmployeetDto()
+            {
+              Name = Employee.Name,
+              Address = Employee.Address,
+              Email = Employee.Email,   
+              Age = Employee.Age,   
+              Salary = Employee.Salary,
+              HiringDate = Employee.HiringDate,
+              IsActive = Employee.IsActive,
+              PhoneNumber = Employee.PhoneNumber,   
+              EmplyeeType = Employee.EmplyeeType,
+              Gender = Employee.Gender,
+            });
+        }
 
-        //[HttpPost] // Post: 
-        //public IActionResult Edit([FromRoute] int id, DepartmentEditViewModel Employee)
-        //{
-        //    if (!ModelState.IsValid) // Server Side Validation
-        //        return View(Employee);
+        [HttpPost] // Post: 
+        public IActionResult Edit([FromRoute] int id, UpdatedEmployeetDto Employee)
+        {
+            if (!ModelState.IsValid) // Server Side Validation
+                return View(Employee);
 
-        //    var Message = string.Empty;
+            var Message = string.Empty;
 
-        //    try
-        //    {
-        //        var departmentToUpdate = new UpdatedEmployeetDto()
-        //        {
-        //            Id = id,
-        //            Code = Employee.Code,
-        //            Name = Employee.Name,
-        //            Description = Employee.Description,
-        //            CreationDate = Employee.CreationDate
-        //        };
+            try
+            {
+         
 
-        //        var Updated = _employeeService.UpdateEmployee(departmentToUpdate) > 0;
+                var Updated = _employeeService.UpdateEmployee(Employee) > 0;
 
-        //        if (Updated)
-        //            return RedirectToAction(nameof(Index));
+                if (Updated)
+                    return RedirectToAction(nameof(Index));
 
-        //        Message = "An Error has occured during updating this Employee :(";
-        //    }
-        //    catch (Exception ex)
-        //    {
+                Message = "An Error has occured during updating this Employee :(";
+            }
+            catch (Exception ex)
+            {
 
-        //        // 1. Log Exception
-        //        _logger.LogError(ex, ex.Message);
+                // 1. Log Exception
+                _logger.LogError(ex, ex.Message);
 
-        //        // 2.Set Message
-        //        Message = _environment.IsDevelopment() ? ex.Message : "An Error has occured during updating this Employee :(";
+                // 2.Set Message
+                Message = _environment.IsDevelopment() ? ex.Message : "An Error has occured during updating this Employee :(";
 
-        //    }
-        //    ModelState.AddModelError(string.Empty, Message);
-        //    return View(Employee);
-        //}
-        //#endregion
+            }
+            ModelState.AddModelError(string.Empty, Message);
+            return View(Employee);
+        }
+
 
         //#region Delete
         //[HttpGet] // Get: /Employee/Delete/id?
