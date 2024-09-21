@@ -106,8 +106,8 @@ namespace LinkDev.IKEA.BLL.Services.Employees
                     Email = employee.Email,
                     PhoneNumber = employee.PhoneNumber,
                     HiringDate = employee.HiringDate,
-                    Gender = nameof(employee.Gender),
-                    EmplyeeType = nameof(employee.EmplyeeType),
+                    Gender = employee.Gender,
+                    EmplyeeType =employee.EmplyeeType,
 
                     CreatedBy = employee.CreatedBy,
                     CreatedOn = employee.CreatedOn,
