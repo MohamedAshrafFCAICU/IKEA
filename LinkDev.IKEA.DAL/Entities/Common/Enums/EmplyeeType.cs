@@ -9,6 +9,7 @@ namespace LinkDev.IKEA.DAL.Entities.Common.Enums
     public enum EmplyeeType
     {
         PartTime = 1,
-        FullTime = 2
+        FullTime = 2,
+        Internship = 3
     }
 }
