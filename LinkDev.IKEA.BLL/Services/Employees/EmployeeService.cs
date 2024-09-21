@@ -77,7 +77,7 @@ namespace LinkDev.IKEA.BLL.Services.Employees
         {
             var employees = _employeeRepository.GetAll();
 
-            return _employeeRepository.GetAllAsIQueryable().Select(employee => new EmployeeToReturnDto()
+            return _employeeRepository.GetAllAsIQueryable().Where(E => !E.IsDeleted).Select(employee => new EmployeeToReturnDto()
             {
                 Id = employee.Id,
                 Name = employee.Name,
@@ -88,7 +88,7 @@ namespace LinkDev.IKEA.BLL.Services.Employees
                 Gender = employee.Gender.ToString(),
                 EmplyeeType =employee.EmplyeeType.ToString(),
                
-            });
+            }).ToList();
         }
 
         public EmployeeDetailsToReturnDto? GetEmployeeById(int id)

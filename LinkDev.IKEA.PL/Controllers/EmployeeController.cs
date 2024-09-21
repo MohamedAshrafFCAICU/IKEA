@@ -98,7 +98,8 @@ namespace LinkDev.IKEA.PL.Controllers
         }
         #endregion
 
-        
+
+        #region Edit
         [HttpGet] // GET: /Employee/Edit/id?
         public IActionResult Edit(int? id)
         {
@@ -112,16 +113,16 @@ namespace LinkDev.IKEA.PL.Controllers
 
             return View(new UpdatedEmployeetDto()
             {
-              Name = Employee.Name,
-              Address = Employee.Address,
-              Email = Employee.Email,   
-              Age = Employee.Age,   
-              Salary = Employee.Salary,
-              HiringDate = Employee.HiringDate,
-              IsActive = Employee.IsActive,
-              PhoneNumber = Employee.PhoneNumber,   
-              EmplyeeType = Employee.EmplyeeType,
-              Gender = Employee.Gender,
+                Name = Employee.Name,
+                Address = Employee.Address,
+                Email = Employee.Email,
+                Age = Employee.Age,
+                Salary = Employee.Salary,
+                HiringDate = Employee.HiringDate,
+                IsActive = Employee.IsActive,
+                PhoneNumber = Employee.PhoneNumber,
+                EmplyeeType = Employee.EmplyeeType,
+                Gender = Employee.Gender,
             });
         }
 
@@ -135,7 +136,7 @@ namespace LinkDev.IKEA.PL.Controllers
 
             try
             {
-         
+
 
                 var Updated = _employeeService.UpdateEmployee(Employee) > 0;
 
@@ -156,52 +157,40 @@ namespace LinkDev.IKEA.PL.Controllers
             }
             ModelState.AddModelError(string.Empty, Message);
             return View(Employee);
+        } 
+        #endregion
+
+
+        #region Delete
+      
+        [HttpPost] // Post: 
+        public IActionResult Delete(int id)
+        {
+            var Message = string.Empty;
+
+            try
+            {
+                var deleted = _employeeService.DeleteEmployee(id);
+
+                if (deleted)
+                    return RedirectToAction(nameof(Index));
+
+                Message = "An Error has occured during Deleting this Employee :(";
+            }
+            catch (Exception ex)
+            {
+
+                // 1. Log Exception
+                _logger.LogError(ex, ex.Message);
+
+                // 2.Set Message
+                Message = _environment.IsDevelopment() ? ex.Message : "An Error has occured during Deleting this Employee :(";
+            }
+
+            //ModelState.AddModelError(string.Empty , Message);
+            return RedirectToAction(nameof(Index));
+
         }
-
-
-        //#region Delete
-        //[HttpGet] // Get: /Employee/Delete/id?
-        //public IActionResult Delete(int? id)
-        //{
-        //    if (id is null)
-        //        return BadRequest();
-
-        //    var Employee = _employeeService.GetEmployeeById(id.Value);
-
-        //    if (Employee is null)
-        //        return NotFound();
-
-        //    return View(Employee);
-        //}
-
-        //[HttpPost] // Post: 
-        //public IActionResult Delete(int id)
-        //{
-        //    var Message = string.Empty;
-
-        //    try
-        //    {
-        //        var deleted = _employeeService.DeleteEmployee(id);
-
-        //        if (deleted)
-        //            return RedirectToAction(nameof(Index));
-
-        //        Message = "An Error has occured during Deleting this Employee :(";
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        // 1. Log Exception
-        //        _logger.LogError(ex, ex.Message);
-
-        //        // 2.Set Message
-        //        Message = _environment.IsDevelopment() ? ex.Message : "An Error has occured during Deleting this Employee :(";
-        //    }
-
-        //    //ModelState.AddModelError(string.Empty , Message);
-        //    return RedirectToAction(nameof(Index));
-
-        //} 
-        //#endregion
+        #endregion
     }
 }
