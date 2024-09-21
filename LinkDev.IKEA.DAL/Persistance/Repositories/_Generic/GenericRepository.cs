@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LinkDev.IKEA.DAL.Persistance.Repositories._Generic
 {
-    public class GenericRepository<T> where T : ModelBase
+    public class GenericRepository<T> : IGenericRepository<T> where T : ModelBase 
     {
         private protected readonly ApplicationDbContext _dbContext;
 
@@ -27,16 +27,17 @@ namespace LinkDev.IKEA.DAL.Persistance.Repositories._Generic
 
         public int Delete(T entity)
         {
-            _dbContext.Set<T>().Remove(entity);
+            entity.IsDeleted = true;
+            _dbContext.Set<T>().Update(entity);
             return _dbContext.SaveChanges();
         }
 
         public IEnumerable<T> GetAll(bool WithAsNoTracking = true)
         {
             if (WithAsNoTracking)
-                return _dbContext.Set<T>().AsNoTracking().ToList();
+                return _dbContext.Set<T>().Where(X => !X.IsDeleted).AsNoTracking().ToList();
 
-            return _dbContext.Set<T>().ToList();
+            return _dbContext.Set<T>().Where(X => !X.IsDeleted).ToList();
         }
 
         public T? GetById(int id)
