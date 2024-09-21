@@ -85,8 +85,8 @@ namespace LinkDev.IKEA.BLL.Services.Employees
                 IsActive = employee.IsActive,
                 Salary = employee.Salary,
                 Email = employee.Email,
-                Gender = nameof(employee.Gender),
-                EmplyeeType =nameof(employee.EmplyeeType),
+                Gender = employee.Gender.ToString(),
+                EmplyeeType =employee.EmplyeeType.ToString(),
                
             });
         }
@@ -108,6 +108,11 @@ namespace LinkDev.IKEA.BLL.Services.Employees
                     HiringDate = employee.HiringDate,
                     Gender = nameof(employee.Gender),
                     EmplyeeType = nameof(employee.EmplyeeType),
+
+                    CreatedBy = employee.CreatedBy,
+                    CreatedOn = employee.CreatedOn,
+                    LastModifiedBy = employee.LastModifiedBy,
+                    LastModifiedOn = employee.LastModifiedOn,
                 };
 
             return null;
