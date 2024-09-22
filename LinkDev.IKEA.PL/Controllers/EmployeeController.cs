@@ -18,6 +18,7 @@ namespace LinkDev.IKEA.PL.Controllers
         private readonly ILogger<EmployeeController> _logger;
         private readonly IWebHostEnvironment _environment;
 
+
         public EmployeeController(IEmployeeService employeeService, ILogger<EmployeeController> logger, IWebHostEnvironment environment)
         {
             _employeeService = employeeService;
@@ -110,6 +111,8 @@ namespace LinkDev.IKEA.PL.Controllers
 
             if (Employee is null)
                 return NotFound();  // 404
+
+          
 
             return View(new UpdatedEmployeetDto()
             {

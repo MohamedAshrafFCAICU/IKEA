@@ -19,6 +19,13 @@ namespace LinkDev.IKEA.DAL.Persistance.Data.Configurations.Departments
             builder.Property(D => D.CreatedOn).HasDefaultValueSql("GETDATE()");
             builder.Property(D => D.LastModifiedOn).HasComputedColumnSql("GETDATE()");
 
+
+            builder.HasMany(D => D.Employees)
+                   .WithOne(E => E.Department)
+                   .HasForeignKey(E => E.DepartmentId)
+                   .OnDelete(DeleteBehavior.SetNull);
+
+
         }
     }
 }

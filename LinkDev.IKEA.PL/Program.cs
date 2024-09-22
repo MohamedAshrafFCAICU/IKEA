@@ -22,7 +22,7 @@ namespace LinkDev.IKEA.PL
 
             builder.Services.AddDbContext<ApplicationDbContext>((optionsBuilder) =>
             {
-                optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                optionsBuilder.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
