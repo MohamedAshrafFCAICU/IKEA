@@ -43,14 +43,23 @@ namespace LinkDev.IKEA.PL.Controllers
 
         [HttpPost] // Post: /Department/Create
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreatedDepartmentDto department)
+        public IActionResult Create(DepartmentEditViewModel departmentVM)
         {
             if (!ModelState.IsValid)
-                return View(department);
+                return View(departmentVM);
 
             var Message = string.Empty;
             try
             {
+                var department = new CreatedDepartmentDto()
+                {
+                    Code = departmentVM.Code,
+                    Name = departmentVM.Name,
+                    CreationDate = departmentVM.CreationDate,
+                    Description = departmentVM.Description,
+                };
+
+
                 var Result = _departmentService.CreateDepartment(department);
 
                 if (Result > 0)
@@ -59,7 +68,7 @@ namespace LinkDev.IKEA.PL.Controllers
                 {
                     Message = "Department is not Created";
                     ModelState.AddModelError(string.Empty, Message);
-                    return View(department);
+                    return View(departmentVM);
                 }
 
             }
@@ -75,7 +84,7 @@ namespace LinkDev.IKEA.PL.Controllers
 
             }
             ModelState.AddModelError(string.Empty, Message);
-            return View(department);
+            return View(departmentVM);
 
         }
         #endregion
