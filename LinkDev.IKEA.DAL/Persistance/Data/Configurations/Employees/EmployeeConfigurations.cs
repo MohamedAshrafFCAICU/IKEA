@@ -19,7 +19,7 @@ namespace LinkDev.IKEA.DAL.Persistance.Data.Configurations.Employees
             builder.Property(E => E.Address).HasColumnType("Varchar(100)");
             builder.Property(E => E.Salary).HasColumnType("decimal(8 , 2)");
             builder.Property(D => D.CreatedOn).HasDefaultValueSql("GETDATE()");
-            //builder.Property(D => D.LastModifiedOn).HasComputedColumnSql("GETDATE()");
+            builder.Property(D => D.LastModifiedOn).HasComputedColumnSql("GETDATE()");
 
             builder.Property(E => E.Gender)
                 .HasConversion(

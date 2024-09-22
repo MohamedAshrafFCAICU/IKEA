@@ -55,7 +55,9 @@ namespace LinkDev.IKEA.DAL.Persistance.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModifiedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasComputedColumnSql("GETDATE()");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -112,7 +114,9 @@ namespace LinkDev.IKEA.DAL.Persistance.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModifiedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasComputedColumnSql("GETDATE()");
 
                     b.Property<string>("Name")
                         .IsRequired()
