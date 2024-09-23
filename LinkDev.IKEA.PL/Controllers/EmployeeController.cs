@@ -18,6 +18,7 @@ namespace LinkDev.IKEA.PL.Controllers
         private readonly ILogger<EmployeeController> _logger;
         private readonly IWebHostEnvironment _environment;
 
+
         public EmployeeController(IEmployeeService employeeService, ILogger<EmployeeController> logger, IWebHostEnvironment environment)
         {
             _employeeService = employeeService;
@@ -44,6 +45,7 @@ namespace LinkDev.IKEA.PL.Controllers
         }
 
         [HttpPost] // Post: /Employee/Create
+        [ValidateAntiForgeryToken]
         public IActionResult Create(CreatedEmployeeDto Employee)
         {
             if (!ModelState.IsValid) // Server Side Validation 
@@ -98,7 +100,6 @@ namespace LinkDev.IKEA.PL.Controllers
         }
         #endregion
 
-
         #region Edit
         [HttpGet] // GET: /Employee/Edit/id?
         public IActionResult Edit(int? id)
@@ -110,6 +111,8 @@ namespace LinkDev.IKEA.PL.Controllers
 
             if (Employee is null)
                 return NotFound();  // 404
+
+          
 
             return View(new UpdatedEmployeetDto()
             {
@@ -127,6 +130,7 @@ namespace LinkDev.IKEA.PL.Controllers
         }
 
         [HttpPost] // Post: 
+        [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute] int id, UpdatedEmployeetDto Employee)
         {
             if (!ModelState.IsValid) // Server Side Validation
@@ -160,10 +164,10 @@ namespace LinkDev.IKEA.PL.Controllers
         } 
         #endregion
 
-
         #region Delete
       
         [HttpPost] // Post: 
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
             var Message = string.Empty;

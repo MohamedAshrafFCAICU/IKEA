@@ -1,6 +1,7 @@
 ﻿using LinkDev.IKEA.BLL.Models.Employees;
 using LinkDev.IKEA.DAL.Entities.Employee;
 using LinkDev.IKEA.DAL.Persistance.Repositories.Employees;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,8 @@ namespace LinkDev.IKEA.BLL.Services.Employees
                 HiringDate = Employee.HiringDate,
                 Gender = Employee.Gender,
                 EmplyeeType = Employee.EmplyeeType,
+                DepartmentId = Employee.DepartmentId,
+
                 CreatedBy  = 1,
                 LastModifiedBy = 1,
                 LastModifiedOn = DateTime.UtcNow,
@@ -57,6 +60,7 @@ namespace LinkDev.IKEA.BLL.Services.Employees
                 HiringDate = Employee.HiringDate,
                 Gender = Employee.Gender,
                 EmplyeeType = Employee.EmplyeeType,
+                DepartmentId = Employee.DepartmentId,
                 CreatedBy = 1,
                 LastModifiedBy = 1,
                 LastModifiedOn = DateTime.UtcNow,
@@ -77,7 +81,7 @@ namespace LinkDev.IKEA.BLL.Services.Employees
         {
             var employees = _employeeRepository.GetAll();
 
-            return _employeeRepository.GetAllAsIQueryable().Where(E => !E.IsDeleted).Select(employee => new EmployeeToReturnDto()
+            return _employeeRepository.GetAllAsIQueryable().Where(E => !E.IsDeleted).Include(E => E.Department).Select(employee => new EmployeeToReturnDto()
             {
                 Id = employee.Id,
                 Name = employee.Name,
@@ -87,7 +91,7 @@ namespace LinkDev.IKEA.BLL.Services.Employees
                 Email = employee.Email,
                 Gender = employee.Gender.ToString(),
                 EmplyeeType =employee.EmplyeeType.ToString(),
-               
+               Department = employee.Department!.Name,
             }).ToList();
         }
 
@@ -108,11 +112,13 @@ namespace LinkDev.IKEA.BLL.Services.Employees
                     HiringDate = employee.HiringDate,
                     Gender = employee.Gender,
                     EmplyeeType =employee.EmplyeeType,
+                    Department = employee.Department.Name,
 
                     CreatedBy = employee.CreatedBy,
                     CreatedOn = employee.CreatedOn,
                     LastModifiedBy = employee.LastModifiedBy,
                     LastModifiedOn = employee.LastModifiedOn,
+                    
                 };
 
             return null;

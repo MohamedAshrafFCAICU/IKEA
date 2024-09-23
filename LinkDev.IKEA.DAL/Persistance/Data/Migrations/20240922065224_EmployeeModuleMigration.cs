@@ -11,15 +11,6 @@ namespace LinkDev.IKEA.DAL.Persistance.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "LastModifiedOn",
-                table: "Departments",
-                type: "datetime2",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "datetime2",
-                oldComputedColumnSql: "GETDATE()");
-
             migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
@@ -40,7 +31,7 @@ namespace LinkDev.IKEA.DAL.Persistance.Data.Migrations
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false, computedColumnSql: "GETDATE()")
                 },
                 constraints: table =>
                 {
@@ -53,15 +44,6 @@ namespace LinkDev.IKEA.DAL.Persistance.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Employees");
-
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "LastModifiedOn",
-                table: "Departments",
-                type: "datetime2",
-                nullable: false,
-                computedColumnSql: "GETDATE()",
-                oldClrType: typeof(DateTime),
-                oldType: "datetime2");
         }
     }
 }

@@ -1,7 +1,10 @@
-﻿@model CreatedEmployeeDto
-
+﻿
+@model CreatedEmployeeDto
+@inject IDepartmentService departmentService
 @{
     ViewData["Title"] = "Create";
+
+    var departments = new SelectList(departmentService.GetAllDepartments(), nameof(DepartmentToReturnDto.Id), nameof(DepartmentToReturnDto.Name), "Name");
 }
 <div class="row justify-content-center align-items-center flex-column">
     <h1 class="col-6 my-4" >Create New Employee</h1>
@@ -39,6 +42,15 @@
             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
         </div>
         <div class="form-group col-6">
+            <label asp-for="DepartmentId" class="control-label"></label>
+            <select asp-for="DepartmentId" asp-items="@departments " class="form-control">
+                <option value="@null">Choose... </option>
+
+            </select>
+
+
+        </div>
+        <div class="form-group col-6">
             <label asp-for="EmplyeeType" class="control-label"></label>
             <select asp-for="EmplyeeType" asp-items="Html.GetEnumSelectList<EmplyeeType>()" class="form-control">
                 <option value="">Choose... </option>
@@ -48,8 +60,8 @@
 
         </div>
         <div class="form-group col-6">
-            <label class="control-label" asp-for="Gender"></label><br />
-            <@foreach (Gender genderOperation in Enum.GetValues(typeof(Gender)))
+            <label class="control-label" asp-for="Gender"> </label>
+            @foreach (Gender genderOperation in Enum.GetValues(typeof(Gender)))
             {
                     <div class="form-check">
                        <input type="radio" class="form-check-input" asp-for="Gender" value="@genderOperation" />
@@ -58,7 +70,6 @@
                        </label>
                     </div>
             }
-
         </div>
         <div class="form-check col-12 mt-3">
             <input asp-for="IsActive" class="form-check-input mb-3" />
@@ -75,3 +86,9 @@
 
     </form>
 </div>
+
+@section ValidationScripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

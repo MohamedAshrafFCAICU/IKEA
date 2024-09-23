@@ -28,6 +28,23 @@ namespace LinkDev.IKEA.PL.Controllers
         [HttpGet] // GET: /Department/Index
         public IActionResult Index()
         {
+            // View 's Disctonary => Passing Data From Controller [Action] To View (From View -> [Layout- Partial View])
+
+
+            //1. ViewData =>  Disctonary: is a Dictionary Type Property (introduced in ASP.NET Framework 3.
+            /// => It helps us To Transfer The Data from Controller[Action] => View
+
+            ViewData["Message"] = "Hello View Data";
+
+
+            //1. ViewBag =>  Disctonary: is a Dynamic Dictionary Type Property (introduced in ASP.NET Framework 4
+            /// => It helps us To Transfer The Data from Controller[Action] => View
+
+            ViewBag.Message = "Hello View Bag";
+
+
+            ViewData["Message"] = "Hello View";
+
             var departments = _departmentService.GetAllDepartments();
 
             return View(departments);
@@ -42,24 +59,35 @@ namespace LinkDev.IKEA.PL.Controllers
         }
 
         [HttpPost] // Post: /Department/Create
-        public IActionResult Create(CreatedDepartmentDto department)
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(DepartmentEditViewModel departmentVM)
         {
             if (!ModelState.IsValid)
-                return View(department);
+                return View(departmentVM);
 
             var Message = string.Empty;
             try
             {
-                var Result = _departmentService.CreateDepartment(department);
-
-                if (Result > 0)
-                    return RedirectToAction(nameof(Index));
-                else
+                var department = new CreatedDepartmentDto()
                 {
+                    Code = departmentVM.Code,
+                    Name = departmentVM.Name,
+                    CreationDate = departmentVM.CreationDate,
+                    Description = departmentVM.Description,
+                };
+
+
+                var Created = _departmentService.CreateDepartment(department) > 0;
+
+
+                // 3. TempData : is a property of type of Dictonary(object)(ASP.Net Framwork 3.5)
+                //  Used To Transfer Data between 2 Consuctive requests
+               
+                if (Created)
                     Message = "Department is not Created";
-                    ModelState.AddModelError(string.Empty, Message);
-                    return View(department);
-                }
+
+                ModelState.AddModelError(string.Empty, Message);
+                return View(departmentVM);
 
             }
             catch (Exception ex)
@@ -71,11 +99,10 @@ namespace LinkDev.IKEA.PL.Controllers
 
                 Message = _environment.IsDevelopment() ? ex.Message : "An Error has occured during Creating this department :(";
 
-
+                TempData["Message"] = Message;
+                return  RedirectToAction(nameof(Index));
             }
-            ModelState.AddModelError(string.Empty, Message);
-            return View(department);
-
+           
         }
         #endregion
 
@@ -118,6 +145,7 @@ namespace LinkDev.IKEA.PL.Controllers
         }
 
         [HttpPost] // Post: 
+        [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute] int id, DepartmentEditViewModel department)
         {
             if (!ModelState.IsValid) // Server Side Validation
@@ -174,6 +202,7 @@ namespace LinkDev.IKEA.PL.Controllers
         }
 
         [HttpPost] // Post: 
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
             var Message = string.Empty;

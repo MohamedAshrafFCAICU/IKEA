@@ -1,11 +1,4 @@
 ﻿@model DepartmentDetailsToReturnDto
-@{
-    ViewData["Title"] = "Delete";
-}
-
-<h1>Are You Sure To Delete This Department</h1>
-
-
 
 <ul class="nav nav-tabs" id="departmentTabs" role="tablist">
     <li class="nav-item" role="presentation">
@@ -15,7 +8,6 @@
         <a class="nav-link" id="administration-tab" data-bs-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false">Administration</a>
     </li>
 </ul>
-
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active p-4 border" id="general" role="tabpanel" aria-labelledby="general-tab">
         <div class="row">
@@ -23,15 +15,15 @@
                 <label class="col-form-label" asp-for="Code"></label>
                 <input asp-for="Code" class="form-control" readonly />
             </div>
-            <div class="form-group col-12">
+            <div class="form-group col-6">
                 <label class="col-form-label" asp-for="Name"></label>
                 <input asp-for="Name" class="form-control" readonly />
             </div>
-            <div class="form-group col-12">
+            <div class="form-group col-6">
                 <label class="col-form-label" asp-for="Description"></label>
                 <input asp-for="Description" class="form-control" readonly />
             </div>
-            <div class="form-group col-12">
+            <div class="form-group col-6">
                 <label class="col-form-label" asp-for="CreationDate"></label>
                 <input asp-for="CreationDate" class="form-control" readonly />
             </div>
@@ -57,8 +49,22 @@
             </div>
         </div>
     </div>
-    <form asp-action = "Delete" asp-route-id ="@Model.Id" class="mt-4">
-        <input type="submit" value="Delete" class="btn btn-danger" />
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-    </form>
+  
+
+    @if (ViewBag.Title  == "Details")
+    {
+        <div class="mt-4">
+            <a asp-action="Edit" asp-route-id="@ViewBag.Id" class="btn btn-success">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Back To List</a>
+        </div>
+        
+    }
+    else
+    {
+        <form asp-action="Delete" asp-route-id="@ViewBag.Id" class="mt-4">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+
+    }
 </div>

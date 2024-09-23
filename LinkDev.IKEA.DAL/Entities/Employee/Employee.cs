@@ -1,9 +1,11 @@
 ﻿using LinkDev.IKEA.DAL.Entities.Common.Enums;
+using LinkDev.IKEA.DAL.Entities.Department;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace LinkDev.IKEA.DAL.Entities.Employee
 {
@@ -27,6 +29,11 @@ namespace LinkDev.IKEA.DAL.Entities.Employee
         public Gender Gender { get; set; }
 
         public EmplyeeType EmplyeeType { get; set; }
+
+        // Navigational Property [ONE]
+        public virtual Department.Department? Department { get; set; }
+
+        public int? DepartmentId { get; set; }
 
     }
 }

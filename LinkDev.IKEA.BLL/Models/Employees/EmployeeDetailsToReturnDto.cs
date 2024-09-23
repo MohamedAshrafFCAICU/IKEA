@@ -38,6 +38,9 @@ namespace LinkDev.IKEA.BLL.Models.Employees
 
         public EmplyeeType EmplyeeType { get; set; }
 
+        public int? DepartmentId { get; set; }
+
+
         #region Adminstration
         public int CreatedBy { get; set; }
 
@@ -45,7 +48,10 @@ namespace LinkDev.IKEA.BLL.Models.Employees
 
         public int LastModifiedBy { get; set; }
 
-        public DateTime LastModifiedOn { get; set; } 
+        public DateTime LastModifiedOn { get; set; }
         #endregion
+
+        public string? Department { get; set; }
+
     }
 }
