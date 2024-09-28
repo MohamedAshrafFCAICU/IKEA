@@ -1,32 +1,32 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿//// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+//// for details on configuring this project to bundle and minify static web assets.
 
-// Write your JavaScript code.
-
-
-var searchInp = document.getElementById("searchInp");
-
-searchInp.addEventListener("keyup", function () {
-
-    var searchValue = searchInp.value;
+//// Write your JavaScript code.
 
 
-    var xhr = new XMLHttpRequest();
+//var searchInp = document.getElementById("searchInp");
 
-    xhr.open("GET", `http://localhost:5180/Employee?search=${searchValue}`);
+//searchInp.addEventListener("keyup", function () {
 
-    xhr.send();
+//    var searchValue = searchInp.value;
 
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == XMLHttpRequest.DONE) {
 
-            if (xhr.status == 200)
-                document.body.innerHTML = xhr.responseText
+//    var xhr = new XMLHttpRequest();
 
-            else
-                alert('something else other than 200 was returned');
+//    xhr.open("GET", `http://localhost:5180/Employee?search=${searchValue}`);
 
-        }
+//    xhr.send();
 
-    };
-})
+//    xhr.onreadystatechange = function () {
+//        if (xhr.readyState == XMLHttpRequest.DONE) {
+
+//            if (xhr.status == 200)
+//                document.body.innerHTML = xhr.responseText
+
+//            else
+//                alert('something else other than 200 was returned');
+
+//        }
+
+//    };
+//})

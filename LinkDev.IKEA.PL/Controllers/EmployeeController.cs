@@ -29,12 +29,23 @@ namespace LinkDev.IKEA.PL.Controllers
 
         #region Index
         [HttpGet] // GET: /Employee/Index
-        public IActionResult Index(string search)
+        public IActionResult Index(string searchInp)
         {
-            var employees = _employeeService.GetEmployees(search);
+            var employees = _employeeService.GetEmployees(searchInp);
 
             return View(employees);
         }
+        #endregion
+
+        #region Search
+
+        public IActionResult Search(string searchInp)
+        {
+            var employees = _employeeService.GetEmployees(searchInp);
+            return PartialView("Partials/EmployeeTablePartial", employees);
+        }
+
+
         #endregion
 
         #region Create
