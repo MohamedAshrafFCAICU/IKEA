@@ -10,10 +10,10 @@ namespace LinkDev.IKEA.DAL.Persistance.Repositories.Employees
 
         Employee? GetById(int id);
 
-        int Add(Employee entity);
+        void Add(Employee entity);
 
-        int Update(Employee entity);
+        void Update(Employee entity);
 
-        int Delete(Employee entity);
+        void Delete(Employee entity);
     }
 }

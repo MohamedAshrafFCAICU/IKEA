@@ -1,6 +1,7 @@
 ﻿using LinkDev.IKEA.BLL.Models.Departments;
 using LinkDev.IKEA.DAL.Entities.Department;
 using LinkDev.IKEA.DAL.Persistance.Repositories.Departments;
+using LinkDev.IKEA.DAL.Persistance.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,11 @@ namespace LinkDev.IKEA.BLL.Services.Departments
 {
     public class DepartmentService : IDepartmentService
     {
-        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DepartmentService(IDepartmentRepository departmentRepository)
+        public DepartmentService(IUnitOfWork unitOfWork)
         {
-            _departmentRepository = departmentRepository;
+           _unitOfWork = unitOfWork;
         }
 
         public int CreateDepartment(CreatedDepartmentDto department)
@@ -32,7 +33,9 @@ namespace LinkDev.IKEA.BLL.Services.Departments
                 LastModifiedOn = DateTime.UtcNow,
             };
 
-            return _departmentRepository.Add(_department);
+           _unitOfWork.DepartmentRepository.Add(_department);
+
+            return _unitOfWork.Complete();
         }
       
         public int UpdateDepartment(UpdatedDepartmentDto department)
@@ -50,21 +53,25 @@ namespace LinkDev.IKEA.BLL.Services.Departments
                 LastModifiedOn = DateTime.UtcNow,
             };
 
-            return _departmentRepository.Update(_department);
+            _unitOfWork.DepartmentRepository.Update(_department);
+
+            return _unitOfWork.Complete();
         }
 
         public bool DeleteDepartment(int id)
         {
-            var department  = _departmentRepository.GetById(id);   
-            if(department is { })
-               return _departmentRepository.Delete(department) > 0;
+            var departmentRepo = _unitOfWork.DepartmentRepository;
 
-            return false; 
+            var department  = departmentRepo.GetById(id);   
+            if(department is { })
+              departmentRepo.Delete(department);
+
+            return _unitOfWork.Complete() > 0; 
         }
 
         public IEnumerable<DepartmentToReturnDto> GetAllDepartments()
         {
-            var departments = _departmentRepository.GetAll();
+            var departments = _unitOfWork.DepartmentRepository.GetAll();
 
             foreach (var department in departments) 
             {
@@ -80,7 +87,7 @@ namespace LinkDev.IKEA.BLL.Services.Departments
 
         public DepartmentDetailsToReturnDto? GetDepartmentById(int id)
         {
-            var department = _departmentRepository.GetById(id);
+            var department = _unitOfWork.DepartmentRepository.GetById(id);
             
             if(department is { })
                  return new DepartmentDetailsToReturnDto()

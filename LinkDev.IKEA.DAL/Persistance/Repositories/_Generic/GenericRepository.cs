@@ -13,23 +13,22 @@ namespace LinkDev.IKEA.DAL.Persistance.Repositories._Generic
             _dbContext = dbContext;
         }
 
-        public int Add(T entity)
+        public void Add(T entity)
         {
             _dbContext.Set<T>().Add(entity);
-            return _dbContext.SaveChanges();
+   
         }
 
-        public int Update(T entity)
+        public void Update(T entity)
         {
             _dbContext.Set<T>().Update(entity);
-            return _dbContext.SaveChanges();
+
         }
 
-        public int Delete(T entity)
+        public void Delete(T entity)
         {
             entity.IsDeleted = true;
             _dbContext.Set<T>().Update(entity);
-            return _dbContext.SaveChanges();
         }
 
         public IEnumerable<T> GetAll(bool WithAsNoTracking = true)

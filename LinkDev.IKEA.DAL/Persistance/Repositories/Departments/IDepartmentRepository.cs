@@ -15,10 +15,10 @@ namespace LinkDev.IKEA.DAL.Persistance.Repositories.Departments
 
         Department? GetById(int id);
 
-        int Add(Department entity);
+        void Add(Department entity);
 
-        int Update(Department entity);
+        void Update(Department entity);
 
-        int Delete(Department entity);
+        void Delete(Department entity);
     }
 }
