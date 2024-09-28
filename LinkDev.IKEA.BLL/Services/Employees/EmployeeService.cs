@@ -77,11 +77,11 @@ namespace LinkDev.IKEA.BLL.Services.Employees
             return false;
         }
 
-        public IEnumerable<EmployeeToReturnDto> GetAllEmployees()
+        public IEnumerable<EmployeeToReturnDto> GetEmployees(string search)
         {
             var employees = _employeeRepository.GetAll();
 
-            return _employeeRepository.GetAllAsIQueryable().Where(E => !E.IsDeleted).Include(E => E.Department).Select(employee => new EmployeeToReturnDto()
+            return _employeeRepository.GetAllAsIQueryable().Where(E => !E.IsDeleted  && (string.IsNullOrEmpty(search) || E.Name.ToLower().Contains(search.ToLower()))).Include(E => E.Department).Select(employee => new EmployeeToReturnDto()
             {
                 Id = employee.Id,
                 Name = employee.Name,
@@ -112,7 +112,7 @@ namespace LinkDev.IKEA.BLL.Services.Employees
                     HiringDate = employee.HiringDate,
                     Gender = employee.Gender,
                     EmplyeeType =employee.EmplyeeType,
-                    Department = employee.Department.Name,
+                    Department = employee.Department!.Name,
 
                     CreatedBy = employee.CreatedBy,
                     CreatedOn = employee.CreatedOn,

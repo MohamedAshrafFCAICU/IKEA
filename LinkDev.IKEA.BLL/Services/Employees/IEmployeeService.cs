@@ -9,7 +9,7 @@ namespace LinkDev.IKEA.BLL.Services.Employees
 {
     public interface IEmployeeService
     {
-        IEnumerable<EmployeeToReturnDto> GetAllEmployees();
+        IEnumerable<EmployeeToReturnDto> GetEmployees(string search);
 
         EmployeeDetailsToReturnDto? GetEmployeeById(int id);
 
