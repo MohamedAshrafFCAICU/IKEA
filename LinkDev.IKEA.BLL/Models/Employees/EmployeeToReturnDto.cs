@@ -28,8 +28,10 @@ namespace LinkDev.IKEA.BLL.Models.Employees
 
         public string Gender { get; set; } = null!;
 
+        public string? Image { get; set; }
+
         public string EmplyeeType { get; set; } = null!;
 
-        public string Department { get; set; }
+        public string Department { get; set; } = null!;
     }
 }

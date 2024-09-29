@@ -1,4 +1,5 @@
 ﻿using LinkDev.IKEA.DAL.Entities.Common.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -38,6 +39,8 @@ namespace LinkDev.IKEA.BLL.Models.Employees
         public DateOnly HiringDate { get; set; }
 
         public Gender Gender { get; set; }
+
+        public IFormFile? Image { get; set; }
 
         [Display(Name ="Employee Type")]
         public EmplyeeType EmplyeeType { get; set; }

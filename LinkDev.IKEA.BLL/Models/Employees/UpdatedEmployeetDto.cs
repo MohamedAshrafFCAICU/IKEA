@@ -41,6 +41,8 @@ namespace LinkDev.IKEA.BLL.Models.Employees
 
         public Gender Gender { get; set; }
 
+        public string? Image { get; set; }
+
         public EmplyeeType EmplyeeType { get; set; }
 
         public int? DepartmentId { get; set; }

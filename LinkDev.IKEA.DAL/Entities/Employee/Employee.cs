@@ -28,6 +28,9 @@ namespace LinkDev.IKEA.DAL.Entities.Employee
 
         public Gender Gender { get; set; }
 
+        public string? Image { get; set; }
+
+
         public EmplyeeType EmplyeeType { get; set; }
 
         // Navigational Property [ONE]
