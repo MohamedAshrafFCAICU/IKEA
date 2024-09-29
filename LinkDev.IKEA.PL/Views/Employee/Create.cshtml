@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Create";
 
-    var departments = new SelectList(departmentService.GetAllDepartments(), nameof(DepartmentToReturnDto.Id), nameof(DepartmentToReturnDto.Name), "Name");
+    var departments = new SelectList(await departmentService.GetAllDepartmentsAsync(), nameof(DepartmentToReturnDto.Id), nameof(DepartmentToReturnDto.Name), "Name");
 }
 <div class="row justify-content-center align-items-center flex-column">
     <h1 class="col-6 my-4" >Create New Employee</h1>

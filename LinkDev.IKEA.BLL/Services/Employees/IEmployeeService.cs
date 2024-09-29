@@ -9,14 +9,15 @@ namespace LinkDev.IKEA.BLL.Services.Employees
 {
     public interface IEmployeeService
     {
-        IEnumerable<EmployeeToReturnDto> GetEmployees(string search);
+        Task<IEnumerable<EmployeeToReturnDto>> GetEmployeesAsync(string search);
 
-        EmployeeDetailsToReturnDto? GetEmployeeById(int id);
+        Task<EmployeeDetailsToReturnDto?> GetEmployeeByIdAsync(int id);
 
-        int CreateEmployee(CreatedEmployeeDto Employee);
+        Task<int> CreateEmployeeAsync(CreatedEmployeeDto Employee);
 
-        int UpdateEmployee(UpdatedEmployeetDto Employee);
+        Task<int> UpdateEmployeeAsync(UpdatedEmployeetDto Employee);
 
-        bool DeleteEmployee(int id);
+        Task<bool> DeleteEmployeeAsync(int id);
+       
     }
 }
