@@ -124,6 +124,8 @@ namespace LinkDev.IKEA.BLL.Services.Employees
                     PhoneNumber = employee.PhoneNumber,
                     HiringDate = employee.HiringDate,
                     Gender = employee.Gender,
+                    Image = employee.Image, 
+
                     EmplyeeType =employee.EmplyeeType,
                     Department = employee.Department!.Name,
 
