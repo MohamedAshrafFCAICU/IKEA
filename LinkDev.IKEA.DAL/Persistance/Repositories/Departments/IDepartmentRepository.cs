@@ -9,16 +9,16 @@ namespace LinkDev.IKEA.DAL.Persistance.Repositories.Departments
 {
     public interface IDepartmentRepository
     {
-        IEnumerable<Department> GetAll(bool WithAsNoTracking = true);
+        Task<IEnumerable<Department>> GetAllAsync(bool WithAsNoTracking = true);
 
         IQueryable<Department> GetAllAsIQueryable();
 
-        Department? GetById(int id);
+        Task<Department?> GetByIdAsync(int id);
 
-        int Add(Department entity);
+        void Add(Department entity);
 
-        int Update(Department entity);
+        void Update(Department entity);
 
-        int Delete(Department entity);
+        void Delete(Department entity);
     }
 }

@@ -4,12 +4,12 @@
 @{
     ViewData["Title"] = "Create";
 
-    var departments = new SelectList(departmentService.GetAllDepartments(), nameof(DepartmentToReturnDto.Id), nameof(DepartmentToReturnDto.Name), "Name");
+    var departments = new SelectList(await departmentService.GetAllDepartmentsAsync(), nameof(DepartmentToReturnDto.Id), nameof(DepartmentToReturnDto.Name), "Name");
 }
 <div class="row justify-content-center align-items-center flex-column">
     <h1 class="col-6 my-4" >Create New Employee</h1>
 
-    <form asp-action ="Create"  class="col-6">
+    <form asp-action ="Create"  class="col-6" enctype="multipart/form-data">
 
         <div class="form-group col-6">
             <label class="form-label " asp-for="Name"></label>
@@ -79,6 +79,13 @@
             <label class="form-label" asp-for="HiringDate"></label>
             <input type="date" asp-for="HiringDate" class="form-control mb-3" />
         </div>
+
+        <div class="form-group col-6">
+            <label class="form-label" asp-for="Image"></label>
+            <input asp-for="Image" class="form-control mb-3" />
+            @* <span asp-validation-for="Image" class="text-danger"></span> *@
+        </div>
+
         <div class="mt-3">
             <input type="submit" value="Create" class="btn btn-primary" />
             <a asp-action="Index" class="btn btn-light">Back To List</a> 

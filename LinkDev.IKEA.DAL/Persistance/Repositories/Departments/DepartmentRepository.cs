@@ -16,5 +16,7 @@ namespace LinkDev.IKEA.DAL.Persistance.Repositories.Departments
         {
             
         }
+
+     
     }
 }

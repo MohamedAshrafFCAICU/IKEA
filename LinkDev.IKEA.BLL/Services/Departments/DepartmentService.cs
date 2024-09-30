@@ -1,9 +1,12 @@
 ﻿using LinkDev.IKEA.BLL.Models.Departments;
 using LinkDev.IKEA.DAL.Entities.Department;
 using LinkDev.IKEA.DAL.Persistance.Repositories.Departments;
+using LinkDev.IKEA.DAL.Persistance.UnitOfWork;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,14 +14,14 @@ namespace LinkDev.IKEA.BLL.Services.Departments
 {
     public class DepartmentService : IDepartmentService
     {
-        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DepartmentService(IDepartmentRepository departmentRepository)
+        public DepartmentService(IUnitOfWork unitOfWork)
         {
-            _departmentRepository = departmentRepository;
+           _unitOfWork = unitOfWork;
         }
 
-        public int CreateDepartment(CreatedDepartmentDto department)
+        public async Task<int> CreateDepartmentAsync(CreatedDepartmentDto department)
         {
             var _department = new Department()
             {
@@ -32,10 +35,12 @@ namespace LinkDev.IKEA.BLL.Services.Departments
                 LastModifiedOn = DateTime.UtcNow,
             };
 
-            return _departmentRepository.Add(_department);
+           _unitOfWork.DepartmentRepository.Add(_department);
+
+            return await _unitOfWork.CompleteAsync();
         }
       
-        public int UpdateDepartment(UpdatedDepartmentDto department)
+        public async Task<int> UpdateDepartmentAsync(UpdatedDepartmentDto department)
         {
             var _department = new Department()
             {
@@ -50,37 +55,41 @@ namespace LinkDev.IKEA.BLL.Services.Departments
                 LastModifiedOn = DateTime.UtcNow,
             };
 
-            return _departmentRepository.Update(_department);
+            _unitOfWork.DepartmentRepository.Update(_department);
+
+            return await _unitOfWork.CompleteAsync();
         }
 
-        public bool DeleteDepartment(int id)
+        public async Task<bool> DeleteDepartmentAsync(int id)
         {
-            var department  = _departmentRepository.GetById(id);   
+            var departmentRepo = _unitOfWork.DepartmentRepository;
+
+            var department  = await departmentRepo.GetByIdAsync(id);   
             if(department is { })
-               return _departmentRepository.Delete(department) > 0;
+              departmentRepo.Delete(department);
 
-            return false; 
+            return await _unitOfWork.CompleteAsync() > 0; 
         }
 
-        public IEnumerable<DepartmentToReturnDto> GetAllDepartments()
+        public async Task<IEnumerable<DepartmentToReturnDto>> GetAllDepartmentsAsync()
         {
-            var departments = _departmentRepository.GetAll();
+            var departmentRepo =  _unitOfWork.DepartmentRepository;
 
-            foreach (var department in departments) 
-            {
-                yield return new DepartmentToReturnDto()
+            var departments = await departmentRepo.GetAllAsIQueryable()
+                .Where(D => !D.IsDeleted).Select(department => new DepartmentToReturnDto()
                 {
-                    Id = department.Id, 
+                    Id = department.Id,
                     Code = department.Code,
                     Name = department.Name,
-                    CreationDate = department.CreationDate, 
-                };
-            }
+                    CreationDate = department.CreationDate
+                }).AsNoTracking().ToListAsync();
+
+            return  departments;
         }
 
-        public DepartmentDetailsToReturnDto? GetDepartmentById(int id)
+        public async Task<DepartmentDetailsToReturnDto?> GetDepartmentByIdAsync(int id)
         {
-            var department = _departmentRepository.GetById(id);
+            var department = await _unitOfWork.DepartmentRepository.GetByIdAsync(id);
             
             if(department is { })
                  return new DepartmentDetailsToReturnDto()

@@ -4,16 +4,16 @@ namespace LinkDev.IKEA.DAL.Persistance.Repositories.Employees
 {
     public interface IEmployeeRepository
     {
-        IEnumerable<Employee> GetAll(bool WithAsNoTracking = true);
+        Task<IEnumerable<Employee>> GetAllAsync(bool WithAsNoTracking = true);
 
         IQueryable<Employee> GetAllAsIQueryable();
 
-        Employee? GetById(int id);
+        Task<Employee?> GetByIdAsync(int id);
 
-        int Add(Employee entity);
+        void Add(Employee entity);
 
-        int Update(Employee entity);
+        void Update(Employee entity);
 
-        int Delete(Employee entity);
+        void Delete(Employee entity);
     }
 }
