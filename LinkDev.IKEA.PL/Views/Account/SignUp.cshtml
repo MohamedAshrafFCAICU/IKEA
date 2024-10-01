@@ -8,12 +8,13 @@
 <div class="main-agileinfo">
 	<div class="agileits-top">
 		<form action="SignUp">
+
 			<input class="text mb-2" asp-for="FName" placeholder="First Name" required="">
 			<input class="text mb-2" asp-for="LName" placeholder="Last Name" required="">
 			<input class="text mb-2" asp-for="UserName" placeholder="Username" required="">
-			<input class="text mb-2" asp-for="Email" placeholder="Email" required="">
-			<input class="text" asp-for="Password" placeholder="Password" required="">
-			<input class="text w3lpass" asp-for="ConfirmPassword" placeholder="Confirm Password" required="">
+			<input class="text email mb-2" asp-for="Email" placeholder="Email" required="">
+			<input class="text mb-2" asp-for="Password" placeholder="Password" required="">
+			<input class="text mb-2" asp-for="ConfirmPassword" placeholder="Confirm Password" required="">
 			<div class="wthree-text">
 				<label class="anim">
 					<input type="checkbox" asp-for = "IsAgree" class="checkbox" required="">
@@ -26,3 +27,8 @@
 		<p>Don't have an Account? <a asp-action="SignIn"> Login Now!</a></p>
 	</div>
 </div>
+@section ValidationScripts {
+
+	<partial name="_ValidationScriptsPartial" />
+
+}
