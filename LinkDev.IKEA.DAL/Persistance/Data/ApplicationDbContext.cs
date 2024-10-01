@@ -1,5 +1,6 @@
 ﻿using LinkDev.IKEA.DAL.Entities.Department;
 using LinkDev.IKEA.DAL.Entities.Employee;
+using LinkDev.IKEA.DAL.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -7,12 +8,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LinkDev.IKEA.DAL.Persistance.Data
 {
-    public class ApplicationDbContext  : IdentityDbContext
+    public class ApplicationDbContext  : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -30,7 +32,7 @@ namespace LinkDev.IKEA.DAL.Persistance.Data
 
         public DbSet<Employee> Employees { get; set; }
 
-        public DbSet<IdentityUser>  MyProperty { get; set; }
+  
     }
 
 }
