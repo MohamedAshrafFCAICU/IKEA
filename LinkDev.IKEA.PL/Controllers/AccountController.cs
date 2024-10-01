@@ -105,8 +105,19 @@ namespace LinkDev.IKEA.PL.Controllers
 
             ModelState.AddModelError(string.Empty, "Invalid LogIn Attemp.");
             return View(model);
-        } 
-      
+        }
+
+        #endregion
+
+        #region Sign Out
+
+        public async new Task<IActionResult> SignOut() 
+        {
+            await _signInManager.SignOutAsync();
+            
+           return RedirectToAction(nameof(SignIn));
+        }
+
         #endregion
     }
 }
