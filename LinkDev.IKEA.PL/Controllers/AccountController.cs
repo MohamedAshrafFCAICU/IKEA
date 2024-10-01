@@ -21,7 +21,6 @@ namespace LinkDev.IKEA.PL.Controllers
 
         #endregion
 
-
         #region Sign Up
         [HttpGet] // GET: /Account/SignUp
         public IActionResult SignUp()
@@ -66,24 +65,25 @@ namespace LinkDev.IKEA.PL.Controllers
 
             return View(model);
         }
-		#endregion
+        #endregion
 
-
-		[HttpGet] // GET: /Account/SignIn
-		public IActionResult SignIn()
+        #region Sign In
+      
+        [HttpGet] // GET: /Account/SignIn
+        public IActionResult SignIn()
         {
-            return View();  
+            return View();
         }
 
-		[HttpPost] // POST
-		public async Task<IActionResult> SignIn(SignInViewModel model)
-		{
+        [HttpPost] // POST
+        public async Task<IActionResult> SignIn(SignInViewModel model)
+        {
             if (!ModelState.IsValid)
                 return BadRequest();
 
             var user = await _userManager.FindByEmailAsync(model.Email);
 
-            if(user is { })
+            if (user is { })
             {
                 var flag = await _userManager.CheckPasswordAsync(user, model.Password);
 
@@ -98,13 +98,15 @@ namespace LinkDev.IKEA.PL.Controllers
                         ModelState.AddModelError(string.Empty, "Your account is Locked");
 
                     if (result.Succeeded)
-                        RedirectToAction(nameof(HomeController.Index), "Home");
+                       return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
-               
+
             }
 
             ModelState.AddModelError(string.Empty, "Invalid LogIn Attemp.");
-            return View(model); 
-		}
-	}
+            return View(model);
+        } 
+      
+        #endregion
+    }
 }

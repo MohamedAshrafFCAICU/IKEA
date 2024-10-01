@@ -62,6 +62,25 @@ namespace LinkDev.IKEA.PL
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/SignIn";
+                options.ExpireTimeSpan = TimeSpan.FromDays(1);
+                options.LogoutPath = "/Account/SignIn";
+			});
+
+            //builder.Services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = "Hamada";
+            //    options.DefaultChallengeScheme = "Identity.Application";
+            //})
+            //    .AddCookie("Hamada", "AspNetCore.Hamada", options =>
+            //    {
+            //        options.LoginPath = "/Account/SignIn";
+            //        options.ExpireTimeSpan = TimeSpan.FromDays(1);
+            //        options.LogoutPath = "/Account/SignIn";
+            //    });
+
             //builder.Services.AddScoped<ApplicationDbContext>();
             //builder.Services.AddScoped<DbContextOptions<ApplicationDbContext>>((ServiceProvider) =>
             //{
@@ -93,7 +112,7 @@ namespace LinkDev.IKEA.PL
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
