@@ -1,11 +1,13 @@
 using LinkDev.IKEA.BLL.Common.Services.Attachments;
 using LinkDev.IKEA.BLL.Services.Departments;
 using LinkDev.IKEA.BLL.Services.Employees;
+using LinkDev.IKEA.DAL.Entities.Identity;
 using LinkDev.IKEA.DAL.Persistance.Data;
 using LinkDev.IKEA.DAL.Persistance.Repositories.Departments;
 using LinkDev.IKEA.DAL.Persistance.Repositories.Employees;
 using LinkDev.IKEA.DAL.Persistance.UnitOfWork;
 using LinkDev.IKEA.PL.Mapping;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace LinkDev.IKEA.PL
@@ -37,7 +39,48 @@ namespace LinkDev.IKEA.PL
             builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfile()));
 
            
-            builder.Services.AddTransient<IAttachmentService , AttachmentService>();    
+            builder.Services.AddTransient<IAttachmentService , AttachmentService>();
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>((options) =>
+            {
+                options.Password.RequiredLength = 5;
+                options.Password.RequireDigit = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequiredUniqueChars = 1;
+
+
+                options.User.RequireUniqueEmail = true;
+                //options.User.AllowedUserNameCharacters = "sckdnsdjkcnjdbcvd";
+
+
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromDays(5);
+
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/SignIn";
+                options.ExpireTimeSpan = TimeSpan.FromDays(1);
+                //options.LogoutPath = "/Account/SignIn";
+                //options.ForwardSignOut = "/Account/SignIn";
+            });
+
+            //builder.Services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = "Hamada";
+            //    options.DefaultChallengeScheme = "Identity.Application";
+            //})
+            //    .AddCookie("Hamada", "AspNetCore.Hamada", options =>
+            //    {
+            //        options.LoginPath = "/Account/SignIn";
+            //        options.ExpireTimeSpan = TimeSpan.FromDays(1);
+            //        options.LogoutPath = "/Account/SignIn";
+            //    });
 
             //builder.Services.AddScoped<ApplicationDbContext>();
             //builder.Services.AddScoped<DbContextOptions<ApplicationDbContext>>((ServiceProvider) =>
@@ -70,7 +113,7 @@ namespace LinkDev.IKEA.PL
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
